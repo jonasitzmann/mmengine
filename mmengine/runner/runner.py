@@ -2038,6 +2038,16 @@ class Runner:
         else:
             model = self.model
 
+        state_dict = checkpoint['state_dict']
+        state_dict_keys = list(state_dict.keys())
+        model_dict = model.state_dict()
+
+        for k in state_dict_keys:
+            if k in model_dict:
+                if state_dict[k].shape != model_dict[k].shape:
+                    print(f'skipping {k} because of size missmatch')
+                    del state_dict[k]
+
         checkpoint = _load_checkpoint_to_model(
             model, checkpoint, strict, revise_keys=revise_keys)
 
