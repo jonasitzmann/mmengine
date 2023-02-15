@@ -114,7 +114,7 @@ def collect_env():
                 f'{ccompiler.cc}', stderr=subprocess.STDOUT, shell=True)
             encoding = os.device_encoding(
                 sys.stdout.fileno()) or locale.getpreferredencoding()
-            env_info['MSVC'] = cc.decode(encoding).partition('\n')[0].strip()
+            # env_info['MSVC'] = cc.decode(encoding).partition('\n')[0].strip()
             env_info['GCC'] = 'n/a'
     except (subprocess.CalledProcessError, errors.DistutilsPlatformError):
         env_info['GCC'] = 'n/a'
