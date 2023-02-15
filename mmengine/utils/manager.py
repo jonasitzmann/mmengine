@@ -105,7 +105,8 @@ class ManagerMixin(metaclass=ManagerMeta):
             f'type of name should be str, but got {type(cls)}'
         instance_dict = cls._instance_dict  # type: ignore
         # Get the instance by name.
-        if name not in instance_dict:
+        # if name not in instance_dict:
+        if (name not in instance_dict) or kwargs:  # todo: changed this to allow for multiple calls of Runner.from_cfg(). change back?
             instance = cls(name=name, **kwargs)  # type: ignore
             instance_dict[name] = instance  # type: ignore
         else:
