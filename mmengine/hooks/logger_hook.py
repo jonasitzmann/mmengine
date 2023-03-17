@@ -170,8 +170,9 @@ class LoggerHook(Hook):
         else:
             return
         runner.logger.info(log_str)
+        tag['iteration'] = runner.iter  # start at 0 or 1?
         runner.visualizer.add_scalars(
-            tag, step=runner.iter + 1, file_path=self.json_log_path)
+            tag, step=runner.iter + 1, file_path=self.json_log_path)  # start at 0 or 1?
 
     def after_val_iter(self,
                        runner,

@@ -256,6 +256,10 @@ class IterBasedTrainLoop(BaseLoop):
         self.runner.call_hook('before_train')
         # In iteration-based training loop, we treat the whole training process
         # as a big epoch and execute the corresponding hook.
+        if self.val_begin == 0 and self.runner.val_loop is not None:
+            print('validating before training')
+            self.runner.val_loop.run()
+
         self.runner.call_hook('before_train_epoch')
         while self._iter < self._max_iters:
             self.runner.model.train()
@@ -348,6 +352,7 @@ class ValLoop(BaseLoop):
 
         # compute metrics
         metrics = self.evaluator.evaluate(len(self.dataloader.dataset))
+        metrics['iteration'] = self.runner.iter
         self.runner.call_hook('after_val_epoch', metrics=metrics)
         self.runner.call_hook('after_val')
         return metrics
